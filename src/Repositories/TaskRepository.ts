@@ -23,10 +23,20 @@ export default class TaskRepository {
       | Prisma.XOR<Prisma.TaskCreateInput, Prisma.TaskUncheckedCreateInput>
       | Prisma.XOR<Prisma.TaskUpdateInput, Prisma.TaskUncheckedUpdateInput>,
   ) {
-    if (!data.id) {
+  
+    if (data.id === undefined || data.id === null) {
       // @todo IMPLEMENT HERE USING PRISMA API
+      return this.prisma.task.create({
+        data: data as Prisma.TaskCreateInput,
+      });
     }
 
     // @todo IMPLEMENT HERE USING PRISMA API
+    return this.prisma.task.update({
+      where: {
+        id: data.id as number,
+      },
+      data: data as Prisma.TaskUpdateInput,
+    });
   }
 }
