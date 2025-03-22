@@ -26,6 +26,30 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Décisions et choix techniques
+
+**SaveTaskUseCase**
+**Validation des données** : Ajout d'une vérification pour s'assurer que le champ name n'est pas vide avant de sauvegarder une tâche. Cela garantit que seules des données valides sont traitées.
+
+**TaskRepository.save**
+Distinction entre création et mise à jour : Vérification de la présence de l'ID pour déterminer si une tâche doit être créée ou mise à jour. Cela simplifie la logique métier en centralisant cette décision dans le dépôt.
+
+***TaskController**
+**Gestion des endpoints** : Les méthodes create et update utilisent SaveTaskUseCase pour centraliser la logique métier. Cela garantit une séparation claire entre le contrôleur et la logique métier.
+**Conversion des paramètres** : L'ID transmis dans l'URL est converti en nombre pour garantir la compatibilité avec Prisma. J'avais une erreur sans la conversion
+
+***Tests unitaires**
+- TaskController.spec.ts et SaveTaskUseCase.spec.ts
+J'ai créé ces deux fichiers de tests unitaires pour les exécuter et à pas devoir utiliser postman tous le temps.
+
+***Gestion des erreurs** : utilisation de BadRequestException pour fournir des messages clairs au client.
+
+
+## Amélioration : 
+
+Ajouter des tests unitaires en surplus
+Ajouter des logs pour suivre les opérations effectuées
+
 ## Installation
 
 ```bash
@@ -57,6 +81,7 @@ $ yarn run test:e2e
 # test coverage
 $ yarn run test:cov
 ```
+
 
 ## Support
 

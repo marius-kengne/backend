@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Task } from '@prisma/client';
 import { UseCase } from '../../index';
 import SaveTaskDto from './SaveTaskDto';
@@ -14,7 +14,7 @@ export default class SaveTaskUseCase implements UseCase<Promise<Task>, [dto: Sav
      */
 
     if (!dto.name || dto.name.trim() === '') {
-      throw new Error('Le nom de la tâche est requis');
+      throw new BadRequestException('Le nom de la tâche est requis');
     }
 
     try {
@@ -23,7 +23,7 @@ export default class SaveTaskUseCase implements UseCase<Promise<Task>, [dto: Sav
         name: dto.name,
       });
     } catch (error) {
-      throw new Error(`Erreur d'enregistrement de la tâche : ${error.message}`);
+      throw new BadRequestException(error.message);
     }
     
     return null;
